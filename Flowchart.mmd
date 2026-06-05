@@ -1,0 +1,54 @@
+flowchart TD
+    A[Raw News Articles] --> B[Data Loading & Preprocessing]
+    B --> C[Fake.csv + True.csv]
+    C --> D[Label Assignment]
+    D --> E[Data Concatenation & Shuffling]
+    
+    E --> F[Text Cleaning Pipeline]
+    F --> F1[Convert to Lowercase]
+    F1 --> F2[Remove Numbers]
+    F2 --> F3[Remove Punctuation]
+    F3 --> F4[Remove HTML Tags]
+    F4 --> F5[Tokenization]
+    F5 --> F6[Remove Stopwords]
+    F6 --> F7[Lemmatization]
+    F7 --> G[Cleaned Text]
+    
+    G --> H[TF-IDF Vectorization]
+    H --> H1[max_df=0.7]
+    H1 --> H2[English Stopwords Removal]
+    H2 --> I[Feature Matrix X]
+    
+    I --> J[Train-Test Split]
+    J --> K[Training Set 80%]
+    J --> L[Test Set 20%]
+    
+    K --> M[Logistic Regression Model]
+    M --> M1[Linear Classifier]
+    M1 --> M2[Sigmoid Activation]
+    M2 --> M3[Binary Classification]
+    
+    M --> N[Model Training]
+    N --> O[Trained Model]
+    
+    L --> P[Model Evaluation]
+    O --> P
+    P --> Q[Performance Metrics]
+    Q --> Q1[Accuracy Score]
+    Q --> Q2[Precision Score]
+    Q --> Q3[Recall Score]
+    Q --> Q4[F1 Score]
+    
+    O --> R[Prediction Pipeline]
+    R --> S[New Article Input]
+    S --> T[Text Cleaning]
+    T --> U[TF-IDF Transform]
+    U --> V[Logistic Regression Prediction]
+    V --> W[FAKE/REAL Classification]
+    
+    style A fill:#e1f5fe
+    style M fill:#f3e5f5
+    style O fill:#e8f5e8
+    style W fill:#fff3e0
+    style F fill:#fce4ec
+    style H fill:#e0f2f1
