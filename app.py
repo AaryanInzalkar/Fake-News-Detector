@@ -2,6 +2,9 @@ import io
 import time
 from datetime import datetime
 
+import pandas as pd
+import matplotlib.pyplot as plt
+
 import numpy as np
 import pickle
 import re
@@ -58,9 +61,9 @@ VECTORIZER_FILE = "tfidf_vectorizer.pkl"
 # Fill these in with your real numbers from Project_Exhibition.ipynb —
 # left as None so the app never shows a made-up accuracy figure.
 MODEL_ACCURACY = {
-    "Logistic Regression": None,
-    "Random Forest": None,
-    "SVM": None,
+    "Logistic Regression": 97.95,
+    "Random Forest": 95.38,
+    "SVM": 99.09,
 }
 
 SAMPLE_ARTICLE = (
@@ -429,9 +432,15 @@ if load_error:
     st.stop()
 
 # =============================================================================
-# Input card — tabs for Text / URL
+# Top-level tabs: Detector vs Model Comparison
 # =============================================================================
-st.markdown('<div class="fnd-card">', unsafe_allow_html=True)
+main_tab_detect, main_tab_compare = st.tabs(["🔍 Detector", "📊 Model Comparison"])
+
+with main_tab_detect:
+    # =============================================================================
+    # Input card — tabs for Text / URL
+    # =============================================================================
+    st.markdown('<div class="fnd-card">', unsafe_allow_html=True)
 
 tab_text, tab_url = st.tabs(["📝 Text", "🔗 URL"])
 article_text = None
@@ -600,6 +609,59 @@ if run_analysis and article_text:
         mime="text/plain",
     )
 
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with main_tab_compare:
+    st.markdown('<div class="fnd-card">', unsafe_allow_html=True)
+    st.subheader("Model Performance Comparison")
+
+    comparison_data = {
+        "Model": ["Logistic Regression", "Random Forest", "SVM"],
+        "Accuracy": [0.9795, 0.9538, 0.9909],
+        "Precision": [0.9819, 0.9414, 0.9923],
+        "Recall": [0.9790, 0.9724, 0.9902],
+        "F1-Score": [0.9804, 0.9567, 0.9913],
+        "Training Time (s)": [1.65, 22.71, 8053.65],
+    }
+    df_comparison = pd.DataFrame(comparison_data)
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
+
+    metrics = ["Accuracy", "Precision", "Recall", "F1-Score"]
+    x = np.arange(len(comparison_data["Model"]))
+    width = 0.2
+    colors = ["#1565C0", "#C62828", "#2E7D32", "#F39C12"]
+
+    for i, metric in enumerate(metrics):
+        values = df_comparison[metric].values
+        ax1.bar(x + i * width, values, width, label=metric, color=colors[i], alpha=0.85)
+
+    ax1.set_xticks(x + width * 1.5)
+    ax1.set_xticklabels(df_comparison["Model"])
+    ax1.set_ylim(0.85, 1.02)
+    ax1.set_title("Performance Metrics")
+    ax1.legend(fontsize=8)
+    ax1.grid(True, alpha=0.3)
+
+    times = df_comparison["Training Time (s)"].values
+    ax2.bar(df_comparison["Model"], times, color=["#1565C0", "#2E7D32", "#C62828"], alpha=0.8)
+    ax2.set_yscale("log")
+    ax2.set_title("Training Time (log scale, seconds)")
+    ax2.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    st.pyplot(fig)
+
+    st.dataframe(df_comparison, use_container_width=True, hide_index=True)
+
+    st.markdown(
+        """
+        **Recommendation:** Logistic Regression offers the best balance —
+        strong accuracy (97.95%) with training time under 2 seconds.
+        SVM edges out slightly higher accuracy (99.09%) but takes over
+        2 hours to train, making it impractical to retrain often.
+        """
+    )
     st.markdown("</div>", unsafe_allow_html=True)
 
 # =============================================================================
