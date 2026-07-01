@@ -113,10 +113,9 @@ Three models were trained and evaluated on the dataset:
 
 ---
 
-## 👥 Team
+## 👤 Author
 
 - Aaryan Inzalkar
-- Atul Mishra
 ---
 
 ## 📄 License
