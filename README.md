@@ -1,6 +1,6 @@
 # 🔍 Fake News Detector
 
-A machine learning-powered web application that detects whether a news article is **real or fake** — using NLP preprocessing and multiple trained classification models.
+A machine learning-powered web application that detects whether a news article is **real or fake** using NLP preprocessing and multiple trained classification models.
 
 ---
 
