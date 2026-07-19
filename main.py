@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
+from sklearn.calibration import CalibratedClassifierCV
 import re
 import string
 import time
@@ -140,11 +143,7 @@ models = {
         min_samples_leaf=4,
         n_jobs=-1
     ),
-    'SVM': SVC(
-        kernel='linear',
-        random_state=42,
-        probability=True
-    )
+    'SVM': CalibratedClassifierCV(LinearSVC(random_state=42, max_iter=5000), cv=3)
 }
 
 # Store results

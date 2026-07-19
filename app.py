@@ -617,11 +617,11 @@ with main_tab_compare:
 
     comparison_data = {
         "Model": ["Logistic Regression", "Random Forest", "SVM"],
-        "Accuracy": [0.9795, 0.9538, 0.9909],
-        "Precision": [0.9819, 0.9414, 0.9923],
-        "Recall": [0.9790, 0.9724, 0.9902],
-        "F1-Score": [0.9804, 0.9567, 0.9913],
-        "Training Time (s)": [1.65, 22.71, 8053.65],
+       "Accuracy": [0.9861, 0.9937, 0.9932],
+        "Precision": [0.9906, 0.9953, 0.9947],
+        "Recall": [0.9828, 0.9925, 0.9923],
+        "F1-Score": [0.9866, 0.9939, 0.9935],
+        "Training Time (s)": [1.80, 3.58, 4.22],
     }
     df_comparison = pd.DataFrame(comparison_data)
 
